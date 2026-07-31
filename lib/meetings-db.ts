@@ -3,6 +3,38 @@ import type { SacramentMeeting } from './types';
 
 const sql = neon(process.env.POSTGRES_URL!);
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  passwordHash: string;
+}
+
+export async function getUserByEmail(
+  email: string
+): Promise<User | null> {
+  const rows = await sql`
+    SELECT
+      id,
+      name,
+      email,
+      password_hash AS "passwordHash"
+    FROM users
+    WHERE email = ${email};
+  `;
+
+  if (rows.length === 0) return null;
+
+  const user = rows[0];
+
+  return {
+    id: String(user.id),
+    name: user.name,
+    email: user.email,
+    passwordHash: user.passwordHash,
+  };
+}
+
 const ITEMS_PER_PAGE = 5;
 
 export async function getMeetings(

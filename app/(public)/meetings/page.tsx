@@ -1,9 +1,17 @@
 // 15. Meetings listing page.
 // It renders the meetings list view that users can browse from the app.
+
 import { getMeetings, getMeetingsTotalPages } from '@/lib/meetings-db';
 import { MeetingSearch } from '@/components/MeetingSearch';
 import { MeetingCard } from '@/components/MeetingCard';
 import { Pagination } from '@/components/Pagination';
+import { SignOutButton } from '@/components/sign-out-button';
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Meetings",
+  description: "Browse and manage sacrament meetings.",
+};
 
 export default async function MeetingsPage(props: {
   searchParams?: Promise<{
@@ -24,13 +32,19 @@ export default async function MeetingsPage(props: {
   return (
     <section className="space-y-5">
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-2xl font-semibold text-slate-900">
-          All meetings
-        </h2>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-semibold text-slate-900">
+              All Meetings
+            </h2>
 
-        <p className="mt-2 text-slate-600">
-          Browse the current and past sacrament meetings.
-        </p>
+            <p className="mt-2 text-slate-600">
+              Browse the current and past sacrament meetings.
+            </p>
+          </div>
+
+          <SignOutButton />
+        </div>
       </div>
 
       <MeetingSearch />
